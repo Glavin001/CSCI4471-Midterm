@@ -16,10 +16,12 @@ float moon1Size = 20 ; // radius of moon 1  (in case you create a moon2 later on
 float moon1Spin = 0.0 ;
 float moon1Tilt = 0.0 ;
 float moon1Orbit = 0.0 ;
+boolean moon1Planar = true ; // if true then moon orbits the earth in the same plane as the earth orbists the sun
 
 float distSunEarth = 200 ; 
 float distEarthMoon1 = 55 ;
 
+boolean topView = false;
 
 void setup() { 
   size(640, 640, P3D);
@@ -32,21 +34,27 @@ void setup() {
 
 
 void draw() {
+
   
   lights();
   
   background(0, 0, 26);
   fill(250);
-  translate(width/2, height/2); 
+  translate(width/2, height/2);
+
+  if (topView) {
+    rotateX(radians(90));
+  }
   
   // draw sun 
   fill(250,250,0);  // YELLOW
-  sphereDetail(4); // THIS MAKES IT LOW RESOLUTION SO THAT WE CAN SEE THE SPINNING CLEARLY
+  sphereDetail(2); // THIS MAKES IT LOW RESOLUTION SO THAT WE CAN SEE THE SPINNING CLEARLY
   sphere(sunSize);
 
   // draw earth
   rotateY(earthOrbit);
   translate(distSunEarth,0);
+  rotateZ(earthTilt);
   rotateY(earthSpin);
   fill(0,0,250); // BLUE
   sphere(earthSize);
@@ -54,6 +62,9 @@ void draw() {
   // Make the moon gray. 
   // Note that the colours are actually important for debugging, so that you know which sphere you are
   // looking at.
+  if (moon1Planar) {
+   rotateZ(-earthTilt); 
+  }
   rotateY(moon1Orbit);
   translate(distEarthMoon1,0);
   fill(250,250,250); // GREY
