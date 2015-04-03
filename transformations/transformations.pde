@@ -61,6 +61,6 @@ void draw() {
   
   earthOrbit += 0.01;  // RIGHT NOW THIS DOES NOTHING, BUT THIS IS AN EXAMPLE OF HOW YOU CAN UPDATE THE GLOBAL
                       //  VARIABLES SO THAT THEY KEEP INCREMENTING EVERYTIME THE draw() FUNCTION IS CALLED
-  moon1Orbit += 0.02;
+  moon1Orbit += 0.05;
 } 
 
