@@ -16,7 +16,7 @@ float moon1Size = 20 ; // radius of moon 1  (in case you create a moon2 later on
 float moon1Spin = 0.0 ;
 float moon1Tilt = 0.0 ;
 float moon1Orbit = 0.0 ;
-boolean moon1Planar = true ; // if true then moon orbits the earth in the same plane as the earth orbists the sun
+boolean moon1Planar = false ; // if true then moon orbits the earth in the same plane as the earth orbists the sun
 
 float distSunEarth = 200 ; 
 float distEarthMoon1 = 55 ;
@@ -32,6 +32,9 @@ void setup() {
 // GIVEN SOME INPUT PARAMETERS SUCH AS SIZE, ORBIT, etc (EXACTLY WHAT THOSE INPUT PARAMS WOULD BE IS YOUR
 // CHOICE).
 
+void dsphere(float s) {
+ sphere(s); 
+}
 
 void draw() {
 
@@ -49,30 +52,38 @@ void draw() {
   // draw sun 
   fill(250,250,0);  // YELLOW
   sphereDetail(2); // THIS MAKES IT LOW RESOLUTION SO THAT WE CAN SEE THE SPINNING CLEARLY
-  sphere(sunSize);
+  dsphere(sunSize);
 
   // draw earth
   rotateY(earthOrbit);
   translate(distSunEarth,0);
+  rotateY(-earthOrbit);
   rotateZ(earthTilt);
   rotateY(earthSpin);
   fill(0,0,250); // BLUE
-  sphere(earthSize);
-  
-  // Make the moon gray. 
-  // Note that the colours are actually important for debugging, so that you know which sphere you are
-  // looking at.
-  if (moon1Planar) {
-   rotateZ(-earthTilt); 
-  }
-  rotateY(moon1Orbit);
-  translate(distEarthMoon1,0);
-  fill(250,250,250); // GREY
-  sphere(moon1Size);
-  
+  dsphere(earthSize);
+
   earthOrbit += 0.01;  // RIGHT NOW THIS DOES NOTHING, BUT THIS IS AN EXAMPLE OF HOW YOU CAN UPDATE THE GLOBAL
                       //  VARIABLES SO THAT THEY KEEP INCREMENTING EVERYTIME THE draw() FUNCTION IS CALLED
   earthSpin += 0.01;
+  
+  // 1e) moon planar
+  if (moon1Planar) {
+   rotateY(-earthSpin);
+   rotateZ(-earthTilt);
+   rotateY(earthSpin);
+  }
+  // Draw moon
+  rotateY(moon1Orbit);
+  translate(distEarthMoon1,0);
+  // Make the moon gray. 
+  // Note that the colours are actually important for debugging, so that you know which sphere you are
+  // looking at.
+  fill(250,250,250); // GREY
+  dsphere(moon1Size);
+  
   moon1Orbit += 0.05;
+  
+  
 } 
 
