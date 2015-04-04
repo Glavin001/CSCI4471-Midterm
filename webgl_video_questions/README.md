@@ -26,12 +26,12 @@ References:
 - http://stackoverflow.com/a/19102301/2578205
 - https://www.opengl.org/sdk/docs/man3/xhtml/glDrawArrays.xml
 - http://gamedev.stackexchange.com/questions/53757/drawing-more-that-one-quad-with-only-one-gldrawarray-call
-- http://stackoverflow.com/a/12037702/2578205 
+- http://stackoverflow.com/a/12037702/2578205
 - http://gamedev.stackexchange.com/questions/47550/why-is-it-faster-to-draw-lots-of-small-arrays-than-one-big-array
 - http://stackoverflow.com/questions/21942231/multiple-gldrawarrays-calls-vs-buffer-updates-performance
 
 
-> 3) When doing lighting/illumination computations, what do they say is the key trade-off between using the vertex shader versus using the fragment shader? 
+> 3) When doing lighting/illumination computations, what do they say is the key trade-off between using the vertex shader versus using the fragment shader?
 
 Using the fragment shader you would compute the colour per fragment (every pixel in screen), and get much finer results, but a performance penalty because there is a whole lot more fragments in the screen in comparison to the number of triangles that go with it.
 

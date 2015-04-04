@@ -1,0 +1,223 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath}    % need for subequations
+\usepackage{graphicx}   % need for figures
+\usepackage{verbatim}   % useful for program listings
+\usepackage{color}      % use if color is used in text
+\usepackage{subfigure}  % use for side-by-side figures
+\usepackage{hyperref}   % use for hypertext links, including those to external documents and URLs
+
+% don't need the following. simply use defaults
+\setlength{\baselineskip}{16.0pt}    % 16 pt usual spacing between lines
+
+\setlength{\parskip}{3pt plus 2pt}
+\setlength{\parindent}{20pt}
+\setlength{\oddsidemargin}{0.5cm}
+\setlength{\evensidemargin}{0.5cm}
+\setlength{\marginparsep}{0.75cm}
+\setlength{\marginparwidth}{2.5cm}
+\setlength{\marginparpush}{1.0cm}
+\setlength{\textwidth}{150mm}
+
+\begin{comment}
+\pagestyle{empty} % use if page numbers not wanted
+\end{comment}
+
+% above is the preamble
+
+\begin{document}
+
+\begin{center}
+{\large Midterm 3} \\ % \\ = new line
+\copyright 2015 by Glavin Wiechert \\
+Updated April 4, 2015
+\end{center}
+
+\section{3. Perspective Projection}
+
+We want to find the 3x3 (homogenous 2D) matrix that 
+computes the shadow of point $P$ on the x-axis assuming 
+a light positioned at point $Q$ 
+(See Figure 2. Perspective/Shadow: Version 3).
+
+\section{Variables}
+
+$Q = (d, h)$
+
+$P = (x,y)$
+
+$P' = (x', y')$
+
+Assuming that we know points $P$ and $Q$ (values $d$, $h$, $x$, $y$).
+
+\section{Equations}
+
+Let's setup our system of equations.
+
+$x' = Ax + By + C$
+
+$y' = Ax + Ey + F$
+
+$1  = Gx + Hy + I$
+
+Note that the last equation is equal to $1$ because 
+since this is a homogeneous matrix we know that the 
+last value must be $1$, representing a point.
+
+Let's initialize our 3x3 (homogenous 2D) matrix from the 
+coefficients from system of equations above:
+
+\begin{align}
+\textbf{M} &=
+\begin{pmatrix}
+A \hfill & B & C \\
+D & E & F \hfill \\
+G & H & I \hfill 
+\end{pmatrix} \nonumber \\
+\end{align}
+
+The vectors are:
+
+\begin{align}
+\textbf{P} &=
+\begin{pmatrix}
+x \\
+y \\
+1  
+\end{pmatrix} \nonumber 
+, 
+\textbf{P'} &=
+\begin{pmatrix}
+x' \\
+y' \\
+1  
+\end{pmatrix} \nonumber \\
+\end{align}
+
+Which results in the following equation:
+
+\begin{align}
+\textbf{P'} &= \textbf{M} \textbf{P}
+\end{align}
+
+and expands to the following matrix multiplication equation:
+
+\begin{align}
+\begin{pmatrix}
+x' \\
+y' \\
+1  
+\end{pmatrix} \nonumber
+&=
+\begin{pmatrix}
+A \hfill & B & C \\
+D & E & F \hfill \\
+G & H & I \hfill 
+\end{pmatrix} \nonumber
+\begin{pmatrix}
+x \\
+y \\
+1  
+\end{pmatrix} \nonumber \\
+\end{align}
+
+
+The goal is to find the shadow point that goes from $Q$ through $P$ 
+and intersects with $P'$, which lies on the $x$ axis. 
+From this we can conclude that $y'$ ($y$ of $P'$) is equal to 0 (zero).
+
+Therefore we can set the second row to $0$:
+
+\begin{align}
+\textbf{M} &=
+\begin{pmatrix}
+A \hfill & B & C \\
+0 & 0 & 0 \hfill \\
+G & H & I \hfill 
+\end{pmatrix} \nonumber \\
+\end{align}
+
+We also know that the third row must equal $1$ to indicate a homogeneous point.
+So we can set the coefficients of $x$ and $y$ to $0$ and coefficient of $1$ in the vector to $1$:
+
+\begin{align}
+\textbf{M} &=
+\begin{pmatrix}
+A \hfill & B & C \\
+0 & 0 & 0 \hfill \\
+0 & 0 & 1 \hfill 
+\end{pmatrix} \nonumber \\
+\end{align}
+
+We are trying to find $x'$ ($x$ of $P'$), which is $x$ when $y = 0$.
+
+Let's consider that we start at point $P$, with height $y$. 
+We want to reach the $x-axis$ or when $y' = 0$.
+
+$y' = 0 = y - Y$
+
+Where we are trying to find $Y$ such that this equation is satisfied.
+
+We can see that $Y = y$.
+
+$y' = 0 = y - y$
+
+However, this is not very helpful, yet.
+We are not yet considering the point $Q$ and the slope, 
+or rate of change of the line.
+
+We want something like ${\frac{y}{h}}$ that incorporates both point $Q$ and $P$
+(note that $h$ is the height or $y$-like value of $Q$).
+
+Let's multiple the second $y$ (or $Y$) by ${\frac{h}{h}}$:
+
+$y' = 0 = y - y {\frac{h}{h}}$
+
+And let's rearrange:
+
+$y' = 0 = y - {\frac{y}{h}} h$
+
+Notice that the equation is still valid and we can now see ${\frac{y}{h}}$ as a coefficient of $h$.
+
+$y' = 0 = y - m h$
+
+We can consider ${\frac{y}{h}}$ the change required to make 
+point $P$ intersect with the $x-axis$ or ($y = 0$)
+
+Let's take that and plug it into an equation solving for $x'$.
+Similarly to $y'$, the equation for $x'$ would be:
+
+$x' = x - m d$
+
+And substituting $m$ for ${\frac{y}{h}}$:
+
+$x' = x - {\frac{y}{h}} d$
+
+We can then rearrange and obtain our desired form that we used for our matrix:
+
+$V = (A)x + (B)y + (C)1$
+
+In rearranged form:
+
+$x' = (1)x + ({\frac{-d}{h}})y = (0)1$
+
+Therefore our coefficients are:
+
+$A = 1$
+
+$B = {\frac{-d}{h}}$
+
+$C = 0$
+
+Which gives us the final matrix:
+
+\begin{align}
+\textbf{M} &=
+\begin{pmatrix}
+1 & {\frac{-d}{h}} & 0 \\
+0 & 0 & 0 \hfill \\
+0 & 0 & 1 \hfill 
+\end{pmatrix} \nonumber \\
+\end{align}
+
+\end{document}
