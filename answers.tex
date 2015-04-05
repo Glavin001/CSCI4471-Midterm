@@ -1,6 +1,7 @@
 \documentclass[12pt]{article}
 
 \usepackage{amsmath}    % need for subequations
+\usepackage{amssymb}
 \usepackage{graphicx}   % need for figures
 \usepackage{verbatim}   % useful for program listings
 \usepackage{color}      % use if color is used in text
@@ -25,42 +26,406 @@ Please see attached Processing code.
 
 \section{Curves}
 
-When $$a \ne 0$$, there are two solutions to $$(ax^2 + bx + c = 0)$$ and they are
-$$x = {-c \pm \sqrt{b^2-4ac} \over 2a}.$$
+The curve is parameterized over the interval $u \in [-1, 1]$.
+
+\subsection*{a) System of Equations}
+
+The equations are in the form of either $f(u)$ or $f'(u)$ for the derivate:
+
+\begin{enumerate}
+    \item $f(u) = au^2 + bu + c$
+    \item $f'(u) = 2au + b$
+\end{enumerate}
+
+The equations for $P_1$, $P_2$ and $P_1'$ (derivative) are as follows:
+
+\begin{enumerate}
+    \item $P_1$ at $u=-1 \therefore  f(-1) = P_1 = (-1)^2a + (-1)b + (1)c = (1)a + (-1)b + (1)c$
+    \item $P_2$ at $u=1 \therefore   f(1) = P_2 = (1)^2a + (1)b + (1)c  \quad  = (1)a + (1)b + (1)c$
+    \item $P_1'$ at $u=-1 \therefore f'(-1) = P_1' = (2\times(-1))a + (1)b = (-2)a + (1)b + (0)c$
+\end{enumerate}
+
+Note that $P_1$, $P_2$, and $P_1'$ are actually points. 
+When this expression is actually used, 
+it should be only for either the point's $x$ or $y$ value.
+See below for more details.
+
+\subsection*{b) Matrix Form}
+
+Let's convert to matrix form:
+
+\begin{align}
+f(u) = u^{T}MP^{T}
+\end{align}
+
+We know that
+
+\begin{align}
+u^T &=
+\begin{pmatrix}
+u^2 & u & 1
+\end{pmatrix} \nonumber
+\end{align}
+
+and
+
+\begin{align}
+P^T &=
+\begin{pmatrix}
+P_1 \\
+P_2 \\
+P_1'
+\end{pmatrix} \nonumber
+\end{align}
+
+We need to solve for $M$.
+
+Let's transform the system of equations from above into a matrix equation of form:
+
+\begin{align}
+\begin{pmatrix}
+P_1 \\
+P_2 \\
+P_1'
+\end{pmatrix} \nonumber
+&=
+\begin{pmatrix}
+A \hfill & B & C \\
+D & E & F \hfill \\
+G & H & I \hfill 
+\end{pmatrix} \nonumber
+\begin{pmatrix}
+a \\
+b \\
+c
+\end{pmatrix} \nonumber \\
+\end{align}
+
+Note that $P_1$, $P_2$, and $P_1'$ are actually points. 
+When this expression is actually used, 
+it should be only for either the point's $x$ or $y$ value, 
+such that we have two equations:
+
+\begin{align}
+\begin{pmatrix}
+P_1x \\
+P_2x \\
+P_1x'
+\end{pmatrix} \nonumber
+&=
+\begin{pmatrix}
+A \hfill & B & C \\
+D & E & F \hfill \\
+G & H & I \hfill 
+\end{pmatrix} \nonumber
+\begin{pmatrix}
+a_x \\
+b_x \\
+c_x
+\end{pmatrix} \nonumber
+\quad
+\textbf{and}
+\quad
+\begin{pmatrix}
+P_1y \\
+P_2y \\
+P_1y'
+\end{pmatrix} \nonumber
+&=
+\begin{pmatrix}
+A \hfill & B & C \\
+D & E & F \hfill \\
+G & H & I \hfill 
+\end{pmatrix} \nonumber
+\begin{pmatrix}
+a_y \\
+b_y \\
+c_y
+\end{pmatrix} \nonumber
+\end{align}
+
+We will continue to refer to $P_1$, $P_2$, and $P_1'$ 
+with the implication that when the equations are applied
+their values are not the points themselves and 
+instead the $x$ or $y$ values of the respective point.
+This results in unique $a$, $b$, and $c$ values for both $x$ and $y$, as indicated above.
+
+Using the coefficients from the system of equations:
+
+\begin{align}
+\begin{pmatrix}
+P_1 \\
+P_2 \\
+P_1'
+\end{pmatrix} \nonumber
+&=
+\begin{pmatrix}
+1 & -1 & 1 \\
+1 & 1 & 1 \\
+-2 & 1 & 0  
+\end{pmatrix} \nonumber
+\begin{pmatrix}
+a \\
+b \\
+c
+\end{pmatrix} \nonumber \\
+\end{align}
+
+To elaborate, consider the equation for $P_1$:
+
+$u = -1 \therefore f(-1) = P_1 = (1)a + (-1)b + (1)c$
+
+The values of the matrix are the coefficients of 
+$a$, $b$, and $c$ for the expression $(u^2)a + (u)b + (1)c$.
+
+\therefore For $P_1$ which is the first row we say that:
+
+\begin{align}
+\begin{pmatrix}
+A &
+B &
+C
+\end{pmatrix} \nonumber
+&=
+\begin{pmatrix}
+1 &
+-1 &
+1
+\end{pmatrix} \nonumber
+\end{align}
+
+Repeat with the same logic for $P_2$ and $P_1'$ and solve for the second and third row of:
+
+\begin{align}
+\textbf{m} &=
+\begin{pmatrix}
+A \hfill & B & C \\
+D & E & F \hfill \\
+G & H & I \hfill 
+\end{pmatrix} \nonumber \\
+\end{align}
+
+The resulting coefficient matrix is:
+
+\begin{align}
+\textbf{m} &=
+\begin{pmatrix}
+1 & -1 & 1 \\
+1 & 1 & 1 \\
+-2 & 1 & 0  
+\end{pmatrix} \nonumber \\
+\end{align}
+
+This is how we determined the matrix equation:
+
+\begin{align}
+\begin{pmatrix}
+P_1 \\
+P_2 \\
+P_1'
+\end{pmatrix} \nonumber
+&=
+\begin{pmatrix}
+1 & -1 & 1 \\
+1 & 1 & 1 \\
+-2 & 1 & 0  
+\end{pmatrix} \nonumber
+\begin{pmatrix}
+a \\
+b \\
+c
+\end{pmatrix} \nonumber \\
+\end{align}
+
+However, we actually want to solve for $a$, $b$, and $c$.
+We can rearrange:
+
+\begin{align}
+\begin{pmatrix}
+a \\
+b \\
+c
+\end{pmatrix} \nonumber
+&=
+\begin{pmatrix}
+1 & -1 & 1 \\
+1 & 1 & 1 \\
+-2 & 1 & 0  
+\end{pmatrix}^{-1}
+\begin{pmatrix}
+P_1 \\
+P_2 \\
+P_1'
+\end{pmatrix} \nonumber
+\end{align}
+
+We are now close to obtaining our desired form:
+
+\begin{align}
+f(u) = u^{T}MP^{T}
+\end{align}
+
+Let's consider the following equation:
+
+\begin{align}
+(u^2)a + (u)b + (1)c
+&=
+\begin{pmatrix}
+u^2 & u & 1
+\end{pmatrix} \nonumber
+\begin{pmatrix}
+a \\
+b \\
+c
+\end{pmatrix} \nonumber
+\end{align}
+
+Note that:
+
+\begin{align}
+f(u) 
+&=
+au^2 + bu + c
+&= 
+u^{T}MP^{T}
+&=
+\begin{pmatrix}
+u^2 & u & 1
+\end{pmatrix} \nonumber
+\begin{pmatrix}
+a \\
+b \\
+c
+\end{pmatrix} \nonumber
+\end{align}
+
+$\therefore$
+
+\begin{align}
+u^T
+&=
+\begin{pmatrix}
+u^2 & u & 1
+\end{pmatrix} \nonumber
+\quad
+\textbf{and}
+\quad
+MP^T
+&=
+\begin{pmatrix}
+a \\
+b \\
+c
+\end{pmatrix} \nonumber
+\end{align}
+
+$\therefore$
+
+\begin{align}
+f(u) 
+&=
+u^{T}MP^{T}
+&=
+\begin{pmatrix}
+u^2 & u & 1
+\end{pmatrix} \nonumber
+\begin{pmatrix}
+1 & -1 & 1 \\
+1 & 1 & 1 \\
+-2 & 1 & 0  
+\end{pmatrix}^{-1}
+\begin{pmatrix}
+P_1 \\
+P_2 \\
+P_1'
+\end{pmatrix} \nonumber
+\end{align}
+
+The expression for $u^T$ is based of of the variable $u$ passed into $f(u)$.
+Finally, let us resolve $M$:
+
+\begin{align}
+\textbf{M} &=
+\begin{pmatrix}
+1 & -1 & 1 \\
+1 & 1 & 1 \\
+-2 & 1 & 0  
+\end{pmatrix}^{-1}
+&=
+\begin{pmatrix}
+{\frac{-1}{4}} & {\frac{1}{4}} & {\frac{-1}{2}} \\
+{\frac{-1}{2}} & {\frac{1}{2}} & 0 \\
+{\frac{3}{4}} & {\frac{1}{4}} & {\frac{1}{2}}  
+\end{pmatrix} \nonumber \\
+\end{align}
+
+$\therefore$
+
+\begin{align}
+f(u) 
+&=
+u^{T}MP^{T}
+&=
+\begin{pmatrix}
+u^2 & u & 1
+\end{pmatrix} \nonumber
+\begin{pmatrix}
+{\frac{-1}{4}} & {\frac{1}{4}} & {\frac{-1}{2}} \\
+{\frac{-1}{2}} & {\frac{1}{2}} & 0 \\
+{\frac{3}{4}} & {\frac{1}{4}} & {\frac{1}{2}}  
+\end{pmatrix} \nonumber
+\begin{pmatrix}
+P_1 \\
+P_2 \\
+P_1'
+\end{pmatrix} \nonumber
+\end{align}
 
 
-$$\begin{bmatrix}a & b\\c & d\end{bmatrix}$$
+\subsection*{c) Linear Combination of Polynomials}
 
+The final parametric curve can be seen as a linear combination of control points, 
+as shown above, or as a linear combination of polynomials.
+Let's consider it as a linear combination of polynomials:
 
-for question 2 I hand wrote it but used software for inverse
+\begin{align}
+f(u) &= au^2 + bu + c \\
+&=
+\begin{pmatrix}
+u^2 & u & 1
+\end{pmatrix} \nonumber
+\begin{pmatrix}
+a \\
+b \\
+c
+\end{pmatrix} \nonumber \\
+&=
+\begin{pmatrix}
+u^2 & u & 1
+\end{pmatrix} \nonumber
+\begin{pmatrix}
+{\frac{-1}{4}} & {\frac{1}{4}} & {\frac{-1}{2}} \\
+{\frac{-1}{2}} & {\frac{1}{2}} & 0 \\
+{\frac{3}{4}} & {\frac{1}{4}} & {\frac{1}{2}}  
+\end{pmatrix} \nonumber
+\begin{pmatrix}
+P_1 \\
+P_2 \\
+P_1'
+\end{pmatrix} \nonumber \\
+&=
+\begin{pmatrix}
+{\frac{-1}{4}}u^2 + {\frac{1}{4}}u + {\frac{-1}{2}} &
+{\frac{-1}{2}}u^2 + {\frac{1}{2}}u + 0 &
+{\frac{3}{4}}u^2 + {\frac{1}{4}}u + {\frac{1}{2}}  
+\end{pmatrix} \nonumber
+\begin{pmatrix}
+P_1 \\
+P_2 \\
+P_1'
+\end{pmatrix} \nonumber
 
-when I am at that question, ill ask you what that means
-using software for inverse
-isn't it variables ?
-not an actual matrix with #s
-
-inverse matrix
-like in class
-we just never computed
-because its a pain
-
-for the "t"s ?
-or u in this cas ?
-e
-
-we had [t^2 t 1][a b c]
-where a b c is vertical
-abc is replaced with the inverse matrix and a column matrix of x1, x2, x3
-or p1, p2, p1prime in this case
-
-ok I think I follow.. so
-f(u) = [t^2, t, 1]^T * M * [P1, P2, P1']
-What's M represent? is that the inverse matrix ?
-
-M is the inverse matrix you get from the system of equations
-you get a matrix from the system of equations
-then M is the inverse of that
-
+\end{align}
 
 \section{Perspective Projection}
 
