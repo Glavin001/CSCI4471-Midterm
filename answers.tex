@@ -1,0 +1,327 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath}    % need for subequations
+\usepackage{graphicx}   % need for figures
+\usepackage{verbatim}   % useful for program listings
+\usepackage{color}      % use if color is used in text
+\usepackage{subfigure}  % use for side-by-side figures
+\usepackage{hyperref}   % use for hypertext links, including those to external documents and URLs
+\usepackage{blindtext}
+\usepackage[utf8]{inputenc}
+
+\title{CSCI4471 - Computer Graphics - Midterm 3}
+\author{Glavin Wiechert}
+\date{\today}
+
+% above is the preamble
+
+\begin{document}
+
+\maketitle
+
+\section{Transformations}
+
+Please see attached Processing code.
+
+\section{Curves}
+
+When $$a \ne 0$$, there are two solutions to $$(ax^2 + bx + c = 0)$$ and they are
+$$x = {-c \pm \sqrt{b^2-4ac} \over 2a}.$$
+
+
+$$\begin{bmatrix}a & b\\c & d\end{bmatrix}$$
+
+
+for question 2 I hand wrote it but used software for inverse
+
+when I am at that question, ill ask you what that means
+using software for inverse
+isn't it variables ?
+not an actual matrix with #s
+
+inverse matrix
+like in class
+we just never computed
+because its a pain
+
+for the "t"s ?
+or u in this cas ?
+e
+
+we had [t^2 t 1][a b c]
+where a b c is vertical
+abc is replaced with the inverse matrix and a column matrix of x1, x2, x3
+or p1, p2, p1prime in this case
+
+ok I think I follow.. so
+f(u) = [t^2, t, 1]^T * M * [P1, P2, P1']
+What's M represent? is that the inverse matrix ?
+
+M is the inverse matrix you get from the system of equations
+you get a matrix from the system of equations
+then M is the inverse of that
+
+
+\section{Perspective Projection}
+
+We want to find the 3x3 (homogenous 2D) matrix that 
+computes the shadow of point $P$ on the x-axis assuming 
+a light positioned at point $Q$ 
+(See Figure 2. Perspective/Shadow: Version 3).
+
+\subsection{Variables}
+
+$Q = (d, h)$
+
+$P = (x,y)$
+
+$P' = (x', y')$
+
+Assuming that we know points $P$ and $Q$ (values $d$, $h$, $x$, $y$).
+
+\subsection{Equations}
+
+Let's setup our system of equations.
+
+$x' = Ax + By + C$
+
+$y' = Ax + Ey + F$
+
+$1  = Gx + Hy + I$
+
+Note that the last equation is equal to $1$ because 
+since this is a homogeneous matrix we know that the 
+last value must be $1$, representing a point.
+
+Let's initialize our 3x3 (homogenous 2D) matrix from the 
+coefficients from system of equations above:
+
+\begin{align}
+\textbf{M} &=
+\begin{pmatrix}
+A \hfill & B & C \\
+D & E & F \hfill \\
+G & H & I \hfill 
+\end{pmatrix} \nonumber \\
+\end{align}
+
+The vectors are:
+
+\begin{align}
+\textbf{P} &=
+\begin{pmatrix}
+x \\
+y \\
+1  
+\end{pmatrix} \nonumber 
+, 
+\textbf{P'} &=
+\begin{pmatrix}
+x' \\
+y' \\
+1  
+\end{pmatrix} \nonumber \\
+\end{align}
+
+Which results in the following equation:
+
+\begin{align}
+\textbf{P'} &= \textbf{M} \textbf{P}
+\end{align}
+
+and expands to the following matrix multiplication equation:
+
+\begin{align}
+\begin{pmatrix}
+x' \\
+y' \\
+1  
+\end{pmatrix} \nonumber
+&=
+\begin{pmatrix}
+A \hfill & B & C \\
+D & E & F \hfill \\
+G & H & I \hfill 
+\end{pmatrix} \nonumber
+\begin{pmatrix}
+x \\
+y \\
+1  
+\end{pmatrix} \nonumber \\
+\end{align}
+
+
+The goal is to find the shadow point that goes from $Q$ through $P$ 
+and intersects with $P'$, which lies on the $x$ axis. 
+From this we can conclude that $y'$ ($y$ of $P'$) is equal to 0 (zero).
+
+Therefore we can set the second row to $0$:
+
+\begin{align}
+\textbf{M} &=
+\begin{pmatrix}
+A \hfill & B & C \\
+0 & 0 & 0 \hfill \\
+G & H & I \hfill 
+\end{pmatrix} \nonumber \\
+\end{align}
+
+We also know that the third row must equal $1$ to indicate a homogeneous point.
+So we can set the coefficients of $x$ and $y$ to $0$ and coefficient of $1$ in the vector to $1$:
+
+\begin{align}
+\textbf{M} &=
+\begin{pmatrix}
+A \hfill & B & C \\
+0 & 0 & 0 \hfill \\
+0 & 0 & 1 \hfill 
+\end{pmatrix} \nonumber \\
+\end{align}
+
+We are trying to find $x'$ ($x$ of $P'$), which is $x$ when $y = 0$.
+
+Let's consider that we start at point $P$, with height $y$. 
+We want to reach the $x-axis$ or when $y' = 0$.
+
+$y' = 0 = y - Y$
+
+Where we are trying to find $Y$ such that this equation is satisfied.
+
+We can see that $Y = y$.
+
+$y' = 0 = y - y$
+
+However, this is not very helpful, yet.
+We are not yet considering the point $Q$ and the slope, 
+or rate of change of the line.
+
+We want something like ${\frac{y}{h}}$ that incorporates both point $Q$ and $P$
+(note that $h$ is the height or $y$-like value of $Q$).
+
+Let's multiple the second $y$ (or $Y$) by ${\frac{h}{h}}$ (which is of course equivilant to $1$):
+
+$y' = 0 = y - y {\frac{h}{h}}$
+
+And then let's rearrange:
+
+$y' = 0 = y - {\frac{y}{h}} h$
+
+Notice that the equation is still valid and we can now see ${\frac{y}{h}}$ as a coefficient of $h$.
+Let's call that $m$:
+
+$y' = 0 = y - m h$
+
+We can consider ${\frac{y}{h}}$ the change required to make 
+point $P$ intersect with the $x-axis$ or ($y = 0$).
+
+Let's take that and plug it into an equation solving for $x'$.
+Similarly to $y'$, the equation for $x'$ would be:
+
+$x' = x - m d$
+
+And substituting $m$ for ${\frac{y}{h}}$:
+
+$x' = x - {\frac{y}{h}} d$
+
+We can then rearrange and obtain our desired form that we used for our matrix:
+
+$V = (A)x + (B)y + (C)1$
+
+In rearranged form:
+
+$x' = (1)x + ({\frac{-d}{h}})y = (0)1$
+
+Therefore our coefficients are:
+
+$A = 1$
+
+$B = {\frac{-d}{h}}$
+
+$C = 0$
+
+Which gives us the top and final row of our matrix:
+
+\begin{align}
+\textbf{M} &=
+\begin{pmatrix}
+1 & {\frac{-d}{h}} & 0 \\
+0 & 0 & 0 \hfill \\
+0 & 0 & 1 \hfill 
+\end{pmatrix} \nonumber \\
+\end{align}
+
+The final matrix multiplication equation is:
+
+\begin{align}
+\begin{pmatrix}
+x' \\
+y' \\
+1  
+\end{pmatrix} \nonumber
+&=
+\begin{pmatrix}
+1 & {\frac{-d}{h}} & 0 \\
+0 & 0 & 0 \hfill \\
+0 & 0 & 1 \hfill 
+\end{pmatrix} \nonumber
+\begin{pmatrix}
+x \\
+y \\
+1  
+\end{pmatrix} \nonumber \\
+\end{align}
+
+
+\section{WebGL Video Questions}
+
+1) What is meant by `in`, `out`, `uniform` variable “types” in OpenGL programming?
+
+\begin{enumerate}
+
+    \item `in` - A parameter declared as `in` means that the value given to that parameter will be copied into the parameter when the function is called. The function may then modify that parameter as they see fit, but those changes will not affect the calling code. `in` is the default qualifier if no qualifier is specified.
+
+    \item `out` - A parameter declared as `out` will not have its value initialized by the caller. The function will modify the parameter, and after the function's execution is complete, the value of the parameter will be copied out into the variable that the user specified when calling the function. Note that the initial value of the parameter at the start of the function being called is undefined, just as if one had simply created a local variable.
+
+    \item `inout` - The `inout` declaration combines both, `in` and `out`. The parameter's value will be initialized by the value supplied by the user, and its final value will be output
+
+    \item `uniform` - Shader-constant variable from application. Uniform variables are read-only and are shared among all processed vertices. They are used to communicate with vertex or fragment shader. They do not change from one execution of a shader program to the next within a particular rendering call.
+
+\end{enumerate}
+
+References:
+\begin{enumerate}
+    \item \url{https://youtu.be/6-9XFm7XAT8?t=1h13m50s}
+    \item \url{https://www.opengl.org/wiki/Uniform_(GLSL)}
+    \item \url{https://www.opengl.org/wiki/Type_Qualifier_(GLSL)}
+    \item \url{https://www.opengl.org/sdk/docs/tutorials/ClockworkCoders/uniform.php}
+    \item \url{https://www.opengl.org/wiki/Core_Language_%28GLSL%29#Parameters}
+\end{enumerate}
+
+
+2) In the rotating cube example, what data/parameters is passed from the main display routine (which is running in the CPU) to the GPU? How would this scale if the model is an object with millions of vertices instead of just a cube?
+
+Inside of the `display` routine, the \href{https://www.opengl.org/sdk/docs/man3/xhtml/glDrawArrays.xml}{`glDrawArrays`} function takes parameters `mode` (a primitive type), `first` (start index), and `count` (index count) and passes that from the CPU to the GPU. The GPU has already been sent the vertices to be buffered until they are drawn. A single call with a large number of vertices is more efficient for the GPU than breaking it into smaller draw calls because then the GPU does not need to repeatedly lock the screen, draw, and then release between each draw call. Instead it can batch these drawings together.
+
+References:
+\begin{enumerate}
+    \item \url{https://youtu.be/6-9XFm7XAT8?t=1h37m1s}
+    \item \url{http://stackoverflow.com/a/19102301/2578205}
+    \item \url{https://www.opengl.org/sdk/docs/man3/xhtml/glDrawArrays.xml}
+    \item \url{http://gamedev.stackexchange.com/questions/53757/drawing-more-that-one-quad-with-only-one-gldrawarray-call}
+    \item \url{http://stackoverflow.com/a/12037702/2578205}
+    \item \url{http://gamedev.stackexchange.com/questions/47550/why-is-it-faster-to-draw-lots-of-small-arrays-than-one-big-array}
+    \item \url{http://stackoverflow.com/questions/21942231/multiple-gldrawarrays-calls-vs-buffer-updates-performance}
+\end{enumerate}
+
+
+3) When doing lighting/illumination computations, what do they say is the key trade-off between using the vertex shader versus using the fragment shader?
+
+Using the fragment shader you would compute the colour per fragment (every pixel in screen), and get much finer results, but a performance penalty because there is a whole lot more fragments in the screen in comparison to the number of triangles that go with it.
+
+References:
+\begin{enumerate}
+    \item \url{https://youtu.be/6-9XFm7XAT8?t=2h22m16s}
+\end{enumerate}
+
+
+\end{document}
