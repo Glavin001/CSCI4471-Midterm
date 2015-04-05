@@ -17,12 +17,13 @@ float moon1Size = 20 ; // radius of moon 1  (in case you create a moon2 later on
 float moon1Spin = 0.0 ;
 float moon1Tilt = 0.0 ;
 float moon1Orbit = 0.0 ;
-boolean moon1Planar = true ; // if true then moon orbits the earth in the same plane as the earth orbists the sun
+boolean moon1Planar = false ; // if true then moon orbits the earth in the same plane as the earth orbists the sun
 
 float distSunEarth = 200 ; 
 float distEarthMoon1 = 55 ;
 
 boolean topView = false;
+boolean showAxis = true;
 
 void setup() { 
   size(640, 640, P3D);
@@ -33,9 +34,21 @@ void setup() {
 // GIVEN SOME INPUT PARAMETERS SUCH AS SIZE, ORBIT, etc (EXACTLY WHAT THOSE INPUT PARAMS WOULD BE IS YOUR
 // CHOICE).
 
+void drawAxes(float size)
+{
+  stroke(255,0,0);
+  // first draw a red line from (0,0,0) to (1,0,0)  — this shows the x-axis (and gives a sense of the scale of it as well)
+  line(0, 0, 0, size, 0, 0);
+  // then draw a blue line from (0,0,0) to (0,1,0) — this shows the y-axis
+  line(0, 0, 0, 0, size, 0);
+  // and finally draw a yellow line from (0,0,0) to (0,0,1) — this shows the z-axis
+  line(0, 0, 0, 0, 0, size);
+  // of course you can choose whichever colours you want as long as you know what represents what…
+}
+
 void drawEarthAndMoon(float earthAxis, float earthOrbit, float distSunEarth, float earthTilt, float earthSpin, float earthSize, boolean moonPlanar, float moonOrbit, float distEarthMoon, float moonSize) {
   pushMatrix(); // Save Sun matrix
-
+    
   // draw earth
   rotateZ(earthAxis);
   rotateY(earthOrbit);
@@ -67,7 +80,11 @@ void drawEarthAndMoon(float earthAxis, float earthOrbit, float distSunEarth, flo
 }
 
 void dsphere(float s) {
+ stroke(0,0,0,0);
  sphere(s); 
+ if (showAxis) {
+   drawAxes(100);
+ }
 }
 
 void draw() {
@@ -85,7 +102,7 @@ void draw() {
   
   // draw sun 
   fill(250,250,0);  // YELLOW
-  sphereDetail(2); // THIS MAKES IT LOW RESOLUTION SO THAT WE CAN SEE THE SPINNING CLEARLY
+  sphereDetail(30); // THIS MAKES IT LOW RESOLUTION SO THAT WE CAN SEE THE SPINNING CLEARLY
   dsphere(sunSize);
 
   // Earth and moon pair 1

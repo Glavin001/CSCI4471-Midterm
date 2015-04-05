@@ -473,14 +473,16 @@ G & H & I \hfill
 The vectors are:
 
 \begin{align}
-\textbf{P} &=
+P &=
 \begin{pmatrix}
 x \\
 y \\
 1  
 \end{pmatrix} \nonumber 
-, 
-\textbf{P'} &=
+\quad
+\textbf{and}
+\quad 
+P' &=
 \begin{pmatrix}
 x' \\
 y' \\
@@ -491,7 +493,7 @@ y' \\
 Which results in the following equation:
 
 \begin{align}
-\textbf{P'} &= \textbf{M} \textbf{P}
+P' &= \textbf{M} \textbf{P}
 \end{align}
 
 and expands to the following matrix multiplication equation:
@@ -519,7 +521,6 @@ y \\
 The goal is to find the shadow point that goes from $Q$ through $P$ 
 and intersects with $P'$, which lies on the $x$ axis. 
 From this we can conclude that $y'$ ($y$ of $P'$) is equal to 0 (zero).
-
 Therefore we can set the second row to $0$:
 
 \begin{align}
@@ -561,7 +562,7 @@ We are not yet considering the point $Q$ and the slope,
 or rate of change of the line.
 
 We want something like ${\frac{y}{h}}$ that incorporates both point $Q$ and $P$
-(note that $h$ is the height or $y$-like value of $Q$).
+(note that $h$ is the height or $y$ value of $Q$).
 
 Let's multiple the second $y$ (or $Y$) by ${\frac{h}{h}}$ (which is of course equivilant to $1$):
 
@@ -584,7 +585,9 @@ Similarly to $y'$, the equation for $x'$ would be:
 
 $x' = x - m d$
 
-And substituting $m$ for ${\frac{y}{h}}$:
+Where $d$ is the position along the $x-axis$ or $x$ value of $Q$.
+
+Substituting $m$ for ${\frac{y}{h}}$:
 
 $x' = x - {\frac{y}{h}} d$
 
@@ -594,7 +597,7 @@ $V = (A)x + (B)y + (C)1$
 
 In rearranged form:
 
-$x' = (1)x + ({\frac{-d}{h}})y = (0)1$
+$x' = (1)x + ({\frac{-d}{h}})y + (0)1$
 
 Therefore our coefficients are:
 
